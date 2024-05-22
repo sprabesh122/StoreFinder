@@ -3,10 +3,11 @@ package com.prabeshcodes.student.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "\"user\"")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,7 +15,9 @@ public class User {
     private String password;
     private String email;
     private String role;
-    private String registrationDate;
+
+    @Column(name = "registration_date")
+    private LocalDateTime registrationDate = LocalDateTime.now();
 
     // Getters and Setters
     public Long getId() {
@@ -57,11 +60,11 @@ public class User {
         this.role = role;
     }
 
-    public String getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(String registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 }

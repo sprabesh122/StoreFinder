@@ -9,4 +9,6 @@ public interface UserService {
     User getUserById(Long id);
 
     User getUserByUsername(String username);
+
+    boolean isAdmin(User user);
 }

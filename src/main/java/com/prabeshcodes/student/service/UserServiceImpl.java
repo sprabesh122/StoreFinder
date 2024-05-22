@@ -12,6 +12,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User saveUser(User user){
+        // Additional logic for user roles can be added here if needed
         return userRepository.save(user);
     }
 
@@ -23,5 +24,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public boolean isAdmin(User user) {
+        return "admin".equalsIgnoreCase(user.getRole());
     }
 }

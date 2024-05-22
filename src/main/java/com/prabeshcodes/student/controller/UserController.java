@@ -18,15 +18,23 @@ public class UserController {
         return "New User Added";
     }
 
-    // Logic to get user by ID
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
-    // Logic to get user by username
     @GetMapping("/username/{username}")
     public User getUserByUsername(@PathVariable String username) {
         return userService.getUserByUsername(username);
+    }
+
+    @GetMapping("/check-admin/{id}")
+    public String checkAdmin(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        if (user != null && userService.isAdmin(user)) {
+            return "User is an Admin";
+        } else {
+            return "User is not an Admin";
+        }
     }
 }
