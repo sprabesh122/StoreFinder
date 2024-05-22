@@ -12,6 +12,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @PostMapping("/add")
+    public String addUser(@RequestBody User user){
+        userService.saveUser(user);
+        return "New User Added";
+    }
+
     // Logic to get user by ID
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
