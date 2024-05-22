@@ -11,8 +11,7 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User saveUser(User user){
-        // Additional logic for user roles can be added here if needed
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 
@@ -24,6 +23,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User getUserByUsernameOrEmail(String identifier) {
+        User user = userRepository.findByUsername(identifier);
+        if (user == null) {
+            user = userRepository.findByEmail(identifier);
+        }
+        return user;
     }
 
     @Override
