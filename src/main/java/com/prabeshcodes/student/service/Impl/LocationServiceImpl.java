@@ -1,7 +1,8 @@
-package com.prabeshcodes.student.service;
+package com.prabeshcodes.student.service.Impl;
 
 import com.prabeshcodes.student.model.Location;
 import com.prabeshcodes.student.repository.LocationRepository;
+import com.prabeshcodes.student.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

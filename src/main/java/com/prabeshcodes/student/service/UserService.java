@@ -23,4 +23,3 @@ public interface UserService {
     boolean isAdmin(User user);
     User updateUserLocation(Long userId, Location location);
 }
-

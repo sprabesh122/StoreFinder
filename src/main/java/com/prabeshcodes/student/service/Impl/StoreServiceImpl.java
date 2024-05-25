@@ -1,7 +1,8 @@
-package com.prabeshcodes.student.service;
+package com.prabeshcodes.student.service.Impl;
 
 import com.prabeshcodes.student.model.Store;
 import com.prabeshcodes.student.repository.StoreRepository;
+import com.prabeshcodes.student.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

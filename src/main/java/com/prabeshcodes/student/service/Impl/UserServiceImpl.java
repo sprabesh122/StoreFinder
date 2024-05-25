@@ -40,12 +40,13 @@
 //    }
 //}
 
-package com.prabeshcodes.student.service;
+package com.prabeshcodes.student.service.Impl;
 
 import com.prabeshcodes.student.model.Location;
 import com.prabeshcodes.student.model.User;
 import com.prabeshcodes.student.repository.LocationRepository;
 import com.prabeshcodes.student.repository.UserRepository;
+import com.prabeshcodes.student.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
