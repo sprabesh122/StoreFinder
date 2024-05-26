@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StoreServiceImpl implements StoreService {
@@ -22,4 +23,10 @@ public class StoreServiceImpl implements StoreService {
     public List<Store> getAllStores() {
         return storeRepository.findAll();
     }
+
+    @Override
+    public Optional<Store> findById(Long id) {
+        return storeRepository.findById(id);
+    }
+
 }
