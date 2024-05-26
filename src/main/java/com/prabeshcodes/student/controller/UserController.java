@@ -77,9 +77,11 @@
 
 package com.prabeshcodes.student.controller;
 
+import com.prabeshcodes.student.dtos.JwtResponse;
 import com.prabeshcodes.student.model.Location;
 import com.prabeshcodes.student.model.User;
 import com.prabeshcodes.student.service.UserService;
+import com.prabeshcodes.student.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,6 +93,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @PostMapping("/add")
     public String addUser(@RequestBody User user) {
@@ -107,8 +112,10 @@ public class UserController {
             location.setLatitude(Double.parseDouble(loginRequest.getLatitude()));
             location.setLongitude(Double.parseDouble(loginRequest.getLongitude()));
             userService.updateUserLocation(user.getId(), location);
-            return ResponseEntity.ok("Login successful");
-        } else {
+
+            String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
+            return ResponseEntity.ok(token);
+        }else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email/username or password");
         }
     }
