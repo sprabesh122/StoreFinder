@@ -1,7 +1,9 @@
 package com.prabeshcodes.student.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Store {
@@ -26,7 +28,18 @@ public class Store {
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Category> categories;
+
     // Getters and Setters
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
     public Long getId() {
         return id;
     }
