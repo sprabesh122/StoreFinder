@@ -1,6 +1,7 @@
 package com.prabeshcodes.student.controller;
 
 import com.prabeshcodes.student.model.Store;
+import com.prabeshcodes.student.service.EmailService;
 import com.prabeshcodes.student.service.StoreService;
 import com.prabeshcodes.student.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -17,6 +18,9 @@ import java.util.List;
 public class StoreController {
     @Autowired
     private StoreService storeService;
+    
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -57,4 +61,11 @@ public class StoreController {
     public List<Store> getAllStores() {
         return storeService.getAllStores();
     }
+
+    @PostMapping("/send-email")
+     public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text) {
+     emailService.sendNewProductMail(to, subject, text);
+return "Email sent successfully!";
+ }
+
 }
