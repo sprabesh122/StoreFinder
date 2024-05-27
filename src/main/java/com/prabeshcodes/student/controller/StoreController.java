@@ -1,5 +1,6 @@
 package com.prabeshcodes.student.controller;
 
+import com.prabeshcodes.student.model.Category;
 import com.prabeshcodes.student.model.Store;
 import com.prabeshcodes.student.service.StoreService;
 import com.prabeshcodes.student.utils.JwtUtil;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/stores")
@@ -58,5 +60,20 @@ public class StoreController {
     @GetMapping("/getAll")
     public List<Store> getAllStores() {
         return storeService.getAllStores();
+    }
+
+    @PostMapping("/{storeId}/categories/add")
+    public ResponseEntity<String> addCategoryToStore(@PathVariable Long storeId, @RequestBody Category category) {
+        Store store = storeService.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found with id " + storeId));
+        category.setStore(store);
+        store.getCategories().add(category);
+        storeService.saveStore(store);
+        return ResponseEntity.ok("Category added to Store");
+    }
+
+    @GetMapping("/{storeId}/categories")
+    public ResponseEntity<Set<Category>> getCategoriesOfStore(@PathVariable Long storeId) {
+        Store store = storeService.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found with id " + storeId));
+        return ResponseEntity.ok(store.getCategories());
     }
 }
