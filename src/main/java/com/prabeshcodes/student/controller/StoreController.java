@@ -6,7 +6,7 @@ import com.prabeshcodes.student.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,29 +21,32 @@ public class StoreController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    //code to save data into the database
+//    @PostMapping("/add")
+//    public String add(@RequestBody Store store, @RequestHeader HttpHeaders headers) throws Exception {
+//        Claims claims = jwtUtil.extractClaims(headers.getFirst("Authorization"));
+//
+//        if (claims.get("role").equals("user")) {
+//            throw new Exception("User not Authorised");
+//        }
+//        storeService.saveStore(store);
+//        return "New Store is Added";
+//    }
 
     @PostMapping("/add")
-    public String add(@RequestBody Store store , @RequestHeader HttpHeaders headers) throws Exception {
-        Claims claims = jwtUtil.extractClaims(headers.getFirst("Authorization"));
-
-        if(claims.get("role") == "user"){
-            throw new Exception("User not Authorised");
-        }
+    public ResponseEntity<String> addStore(@RequestBody Store store) {
         storeService.saveStore(store);
-        return "New Store is Added";
+        return ResponseEntity.ok("New Store is Added");
     }
 
     @PutMapping("/{id}")
     public Store updateStore(@PathVariable Long id, @RequestBody Store storeDetails, @RequestHeader HttpHeaders headers) throws Exception {
-
         Claims claims = jwtUtil.extractClaims(headers.getFirst("Authorization"));
 
-        if(claims.get("role") == "user"){
+        if (claims.get("role").equals("user")) {
             throw new Exception("User not Authorised");
         }
 
-        return (Store) storeService.findById(id).map(store -> {
+        return storeService.findById(id).map(store -> {
             store.setName(storeDetails.getName());
             store.setDescription(storeDetails.getDescription());
             store.setLocation(storeDetails.getLocation());
@@ -52,7 +55,6 @@ public class StoreController {
         }).orElseThrow(() -> new Exception("Store not found with id " + id));
     }
 
-    //logic to get data
     @GetMapping("/getAll")
     public List<Store> getAllStores() {
         return storeService.getAllStores();
