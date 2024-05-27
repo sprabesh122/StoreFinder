@@ -1,4 +1,3 @@
-// Updated Store Entity
 package com.prabeshcodes.student.model;
 
 import jakarta.persistence.*;
@@ -26,11 +25,6 @@ public class Store {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
-
-    // One-to-Many relationship with User
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 
     // Getters and Setters
     public Long getId() {
@@ -111,13 +105,5 @@ public class Store {
 
     public void setLocation(Location location) {
         this.location = location;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }
