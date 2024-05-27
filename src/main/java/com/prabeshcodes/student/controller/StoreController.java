@@ -1,7 +1,9 @@
 package com.prabeshcodes.student.controller;
 
 import com.prabeshcodes.student.model.Store;
+import com.prabeshcodes.student.model.User;
 import com.prabeshcodes.student.service.StoreService;
+import com.prabeshcodes.student.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,20 +11,27 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/stores")
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 public class StoreController {
     @Autowired
     private StoreService storeService;
 
-    //code to save data into the database
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/add")
-    public String add(@RequestBody Store store){
-        storeService.saveStore(store);
-        return "New Store is Added";
+    public String addStore(@RequestBody Store store) {
+        User user = userService.getUserById(store.getUser().getId());
+        if (user != null) {
+            store.setUser(user);
+            storeService.saveStore(store);
+            return "New Store Added";
+        } else {
+            return "User not found";
+        }
     }
 
-    //logic to get data
-    @GetMapping("/getAll")
+    @GetMapping("/all")
     public List<Store> getAllStores() {
         return storeService.getAllStores();
     }
