@@ -42,6 +42,7 @@ public class StoreController {
 
     @PutMapping("/{id}")
     public Store updateStore(@PathVariable Long id, @RequestBody Store storeDetails, @RequestHeader HttpHeaders headers) throws Exception {
+
         Claims claims = jwtUtil.extractClaims(headers.getFirst("Authorization"));
 
         if (claims.get("role").equals("user")) {

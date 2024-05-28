@@ -32,6 +32,9 @@ public class Store {
     @JsonIgnore
     private Set<Category> categories;
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<FavoriteStore> favoriteStores;
+
     // Getters and Setters
     public Set<Category> getCategories() {
         return categories;
@@ -118,5 +121,13 @@ public class Store {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public List<FavoriteStore> getFavoriteStores() {
+        return favoriteStores;
+    }
+
+    public void setFavoriteStores(List<FavoriteStore> favoriteStores) {
+        this.favoriteStores = favoriteStores;
     }
 }
