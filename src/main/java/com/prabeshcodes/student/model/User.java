@@ -75,6 +75,7 @@ package com.prabeshcodes.student.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "\"user\"") // do not change it at any cost as it's the table name and should be user only
@@ -93,6 +94,9 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location currentLocation;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<FavoriteStore> favoriteStores;
 
     // Getters and Setters
     public Long getId() {
@@ -149,5 +153,13 @@ public class User {
 
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
+    }
+
+    public List<FavoriteStore> getFavoriteStores() {
+        return favoriteStores;
+    }
+
+    public void setFavoriteStores(List<FavoriteStore> favoriteStores) {
+        this.favoriteStores = favoriteStores;
     }
 }
