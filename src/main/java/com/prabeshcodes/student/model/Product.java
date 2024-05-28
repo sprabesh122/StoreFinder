@@ -1,5 +1,6 @@
 package com.prabeshcodes.student.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,6 +12,7 @@ public class Product {
     private String name;
     private String description;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
