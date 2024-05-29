@@ -3,6 +3,7 @@ package com.prabeshcodes.student.controller;
 import com.prabeshcodes.student.model.Category;
 import com.prabeshcodes.student.model.Product;
 import com.prabeshcodes.student.model.Store;
+import com.prabeshcodes.student.service.EmailService;
 import com.prabeshcodes.student.repository.CategoryRepository;
 import com.prabeshcodes.student.service.CategoryService;
 import com.prabeshcodes.student.service.StoreService;
@@ -23,6 +24,9 @@ import java.util.Set;
 public class StoreController {
     @Autowired
     private StoreService storeService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -69,6 +73,13 @@ public class StoreController {
     public List<Store> getAllStores() {
         return storeService.getAllStores();
     }
+
+    @PostMapping("/send-email")
+     public String sendEmail(@RequestParam String to, @RequestParam String subject, @RequestParam String text) {
+     emailService.sendNewProductMail(to, subject, text);
+return "Email sent successfully!";
+ }
+
 
     @PostMapping("/{storeId}/categories/add")
     public ResponseEntity<String> addCategoryToStore(@PathVariable Long storeId, @RequestBody Category category) {
