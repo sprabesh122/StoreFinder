@@ -12,7 +12,6 @@ public class Product {
     private String name;
     private String description;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)
     private Store store;
