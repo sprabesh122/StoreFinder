@@ -14,22 +14,25 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    // Code to save review data into the database
-    @PostMapping("/add")
-    public String add(@RequestBody Review review) {
-        reviewService.saveReview(review);
-        return "New Review is Added";
+    @PostMapping
+    public Review addReview(@RequestBody Review review) {
+        return reviewService.addReview(review);
     }
 
-    // Logic to get all reviews
-    @GetMapping("/getAll")
-    public List<Review> getAllReviews() {
-        return reviewService.getAllReviews();
+
+    @GetMapping("/store/{storeId}")
+    public List<Review> getReviewsByStoreId(@PathVariable long storeId) {
+        return reviewService.getReviewsByStore(storeId);
     }
 
-    // Logic to get reviews by store ID
-    @GetMapping("/getByStore/{storeId}")
-    public List<Review> getReviewsByStoreId(@PathVariable Long storeId) {
-        return reviewService.getReviewsByStoreId(storeId);
+
+    @PutMapping("/{id}")
+    public Review updateReview(@PathVariable long id, @RequestBody Review reviewDetails) {
+        return reviewService.updateReview(id, reviewDetails);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteReview(@PathVariable long id) {
+        reviewService.deleteReview(id);
     }
 }
