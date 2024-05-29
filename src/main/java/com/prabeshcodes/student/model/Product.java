@@ -1,5 +1,6 @@
 package com.prabeshcodes.student.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity

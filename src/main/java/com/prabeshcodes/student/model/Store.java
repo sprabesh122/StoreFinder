@@ -1,8 +1,9 @@
-// Updated Store Entity
 package com.prabeshcodes.student.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Store {
@@ -27,12 +28,21 @@ public class Store {
     @JoinColumn(name = "location_id", referencedColumnName = "id")
     private Location location;
 
-    // One-to-Many relationship with User
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Category> categories;
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<FavoriteStore> favoriteStores;
 
     // Getters and Setters
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
+    }
     public Long getId() {
         return id;
     }
@@ -113,11 +123,11 @@ public class Store {
         this.location = location;
     }
 
-    public User getUser() {
-        return user;
+    public List<FavoriteStore> getFavoriteStores() {
+        return favoriteStores;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setFavoriteStores(List<FavoriteStore> favoriteStores) {
+        this.favoriteStores = favoriteStores;
     }
 }

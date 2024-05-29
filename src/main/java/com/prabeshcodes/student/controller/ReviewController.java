@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reviews")
+@RequestMapping("/review")
 @CrossOrigin
 public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping
+    @PostMapping("/add")
     public Review addReview(@RequestBody Review review) {
         return reviewService.addReview(review);
     }
@@ -24,7 +24,6 @@ public class ReviewController {
     public List<Review> getReviewsByStoreId(@PathVariable long storeId) {
         return reviewService.getReviewsByStore(storeId);
     }
-
 
     @PutMapping("/{id}")
     public Review updateReview(@PathVariable long id, @RequestBody Review reviewDetails) {
