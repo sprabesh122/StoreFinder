@@ -1,7 +1,10 @@
 package com.prabeshcodes.student.controller;
 
 import com.prabeshcodes.student.model.Category;
+import com.prabeshcodes.student.model.Product;
 import com.prabeshcodes.student.model.Store;
+import com.prabeshcodes.student.repository.CategoryRepository;
+import com.prabeshcodes.student.service.CategoryService;
 import com.prabeshcodes.student.service.StoreService;
 import com.prabeshcodes.student.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
@@ -11,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @RestController
@@ -19,6 +23,9 @@ import java.util.Set;
 public class StoreController {
     @Autowired
     private StoreService storeService;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -66,8 +73,9 @@ public class StoreController {
     @PostMapping("/{storeId}/categories/add")
     public ResponseEntity<String> addCategoryToStore(@PathVariable Long storeId, @RequestBody Category category) {
         Store store = storeService.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found with id " + storeId));
-        category.setStore(store);
-        store.getCategories().add(category);
+        Category category1 = categoryRepository.findById(category.getId()).orElseThrow(() -> new RuntimeException("Category not found with id " + category.getId()));
+        store.getCategories().add(category1);
+        category1.setStore(store);
         storeService.saveStore(store);
         return ResponseEntity.ok("Category added to Store");
     }
@@ -76,5 +84,16 @@ public class StoreController {
     public ResponseEntity<Set<Category>> getCategoriesOfStore(@PathVariable Long storeId) {
         Store store = storeService.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found with id " + storeId));
         return ResponseEntity.ok(store.getCategories());
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public List<Store> getStoresByCategory(@PathVariable Long categoryId) {
+        // Assuming you have a method in storeService to retrieve stores by category ID
+        return storeService.getStoreByCategory(categoryId);
+    }
+
+    @GetMapping("/product/{productId}")
+    public List<Store> getStoresByProduct(@PathVariable Long productId){
+        return storeService.getStoresByProduct(productId);
     }
 }

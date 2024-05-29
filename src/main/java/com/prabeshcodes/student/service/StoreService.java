@@ -1,5 +1,7 @@
 package com.prabeshcodes.student.service;
 
+import com.prabeshcodes.student.model.Category;
+import com.prabeshcodes.student.model.Product;
 import com.prabeshcodes.student.model.Store;
 
 import java.util.List;
@@ -11,4 +13,8 @@ public interface StoreService {
     List<Store> getAllStores();
 
     Optional<Store> findById(Long id);
+
+    List<Store> getStoreByCategory(Long category);
+
+    List<Store> getStoresByProduct(Long product);
 }

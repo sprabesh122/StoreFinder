@@ -4,4 +4,6 @@ import com.prabeshcodes.student.model.Category;
 
 public interface CategoryService {
     Category getCategoryById(Long id);
+
+    Category addCategory(Category category);
 }
