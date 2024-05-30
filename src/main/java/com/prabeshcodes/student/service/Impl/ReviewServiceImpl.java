@@ -35,8 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Review addReview(Review review) {
         User user = userRepository.findById(review.getUser().getId()).orElseThrow(()-> new ResourceNotFoundException("User Not Found"));
         Store store = storeRepository.findById(review.getStore().getId()).orElseThrow(() -> new ResourceNotFoundException("Store Not Found"));
-        review.setUser(user);
-        review.setStore(store);
+        store.getReviews().add(review);
         return reviewRepository.save(review);
     }
 

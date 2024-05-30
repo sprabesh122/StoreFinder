@@ -19,7 +19,6 @@ public class ReviewController {
         return reviewService.addReview(review);
     }
 
-
     @GetMapping("/store/{storeId}")
     public List<Review> getReviewsByStoreId(@PathVariable long storeId) {
         return reviewService.getReviewsByStore(storeId);

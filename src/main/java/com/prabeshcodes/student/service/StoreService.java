@@ -14,7 +14,7 @@ public interface StoreService {
 
     Optional<Store> findById(Long id);
 
-    List<Store> getStoreByCategory(Long category);
+    List<Store> getStoreByCategory(String category);
 
-    List<Store> getStoresByProduct(Long product);
+    List<Store> getStoresByProduct(String product);
 }

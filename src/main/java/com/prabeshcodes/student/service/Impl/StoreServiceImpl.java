@@ -39,12 +39,12 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Store> getStoreByCategory(Long category) {
+    public List<Store> getStoreByCategory(String category) {
         List<Store> stores = storeRepository.findAll();
         List<Store> resultStores = new ArrayList<>();
         for(Store store : stores){
             for(Category category1 : store.getCategories()){
-                if(Objects.equals(category1.getId(), category)){
+                if(Objects.equals(category1.getName(), category)){
                     resultStores.add(store);
                     break;
                 }
@@ -57,12 +57,12 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public List<Store> getStoresByProduct(Long product) {
+    public List<Store> getStoresByProduct(String product) {
         List<Store> stores = storeRepository.findAll();
         List<Store> resultStores = new ArrayList<>();
         for(Store store : stores){
             for(Product product1 : store.getProducts()){
-                if(Objects.equals(product1.getId(), product)){
+                if(Objects.equals(product1.getName(), product)){
                     resultStores.add(store);
                     break;
                 }

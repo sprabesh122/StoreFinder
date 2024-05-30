@@ -1,8 +1,11 @@
 package com.prabeshcodes.student.controller;
 
+import com.prabeshcodes.student.dtos.StoreResponse;
 import com.prabeshcodes.student.model.Category;
 import com.prabeshcodes.student.model.Product;
+import com.prabeshcodes.student.model.Review;
 import com.prabeshcodes.student.model.Store;
+import com.prabeshcodes.student.repository.StoreRepository;
 import com.prabeshcodes.student.service.EmailService;
 import com.prabeshcodes.student.repository.CategoryRepository;
 import com.prabeshcodes.student.service.CategoryService;
@@ -14,9 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping("/stores")
@@ -27,6 +28,9 @@ public class StoreController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private StoreRepository storeRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -51,6 +55,20 @@ public class StoreController {
         return ResponseEntity.ok("New Store is Added");
     }
 
+    @GetMapping("/id/{storeId}")
+    public StoreResponse findById(@PathVariable Long storeId) throws Exception {
+        Store store = storeRepository.findById(storeId).orElseThrow(()-> new Exception("Store Not Found"));
+        StoreResponse storeResponse = new StoreResponse();
+        storeResponse.setId(store.getId());
+        storeResponse.setName(store.getName());
+        storeResponse.setDescription(store.getDescription());
+        List<String> storeReviews = new ArrayList<>();
+        for(Review review : store.getReviews()){
+            storeReviews.add(review.getComment());
+        }
+        return storeResponse;
+    }
+
     @PutMapping("/{id}")
     public Store updateStore(@PathVariable Long id, @RequestBody Store storeDetails, @RequestHeader HttpHeaders headers) throws Exception {
 
@@ -70,8 +88,16 @@ public class StoreController {
     }
 
     @GetMapping("/getAll")
-    public List<Store> getAllStores() {
-        return storeService.getAllStores();
+    public List<StoreResponse> getAllStores() {
+        List<Store> stores = storeService.getAllStores();
+        List<StoreResponse> result = new ArrayList<>();
+        for(Store store : stores){
+            StoreResponse storeResponse = new StoreResponse();
+            storeResponse.setId(store.getId());
+            storeResponse.setName(store.getName());
+            result.add(storeResponse);
+        }
+        return result;
     }
 
     @PostMapping("/send-email")
@@ -98,13 +124,29 @@ return "Email sent successfully!";
     }
 
     @GetMapping("/category/{categoryId}")
-    public List<Store> getStoresByCategory(@PathVariable Long categoryId) {
+    public List<StoreResponse> getStoresByCategory(@PathVariable String categoryId) {
         // Assuming you have a method in storeService to retrieve stores by category ID
-        return storeService.getStoreByCategory(categoryId);
+        List<Store> stores = storeService.getStoreByCategory(categoryId);
+        List<StoreResponse> result = new ArrayList<>();
+        for(Store store : stores){
+            StoreResponse storeResponse = new StoreResponse();
+            storeResponse.setId(store.getId());
+            storeResponse.setName(store.getName());
+            result.add(storeResponse);
+        }
+        return result;
     }
 
     @GetMapping("/product/{productId}")
-    public List<Store> getStoresByProduct(@PathVariable Long productId){
-        return storeService.getStoresByProduct(productId);
+    public List<StoreResponse> getStoresByProduct(@PathVariable String productId){
+        List<Store> stores = storeService.getStoresByProduct(productId);
+        List<StoreResponse> result = new ArrayList<>();
+        for(Store store : stores){
+            StoreResponse storeResponse = new StoreResponse();
+            storeResponse.setId(store.getId());
+            storeResponse.setName(store.getName());
+            result.add(storeResponse);
+        }
+        return result;
     }
 }
