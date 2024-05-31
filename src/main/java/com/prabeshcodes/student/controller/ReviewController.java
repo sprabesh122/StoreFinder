@@ -1,10 +1,12 @@
 package com.prabeshcodes.student.controller;
 
+import com.prabeshcodes.student.dtos.ReviewResponse;
 import com.prabeshcodes.student.model.Review;
 import com.prabeshcodes.student.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,8 +22,17 @@ public class ReviewController {
     }
 
     @GetMapping("/store/{storeId}")
-    public List<Review> getReviewsByStoreId(@PathVariable long storeId) {
-        return reviewService.getReviewsByStore(storeId);
+    public List<ReviewResponse> getReviewsByStoreId(@PathVariable long storeId) {
+        List<Review> reviews = reviewService.getReviewsByStore(storeId);
+        List<ReviewResponse> result = new ArrayList<>();
+        for(Review review : reviews){
+            ReviewResponse reviewResponse = new ReviewResponse();
+            reviewResponse.setComment(review.getComment());
+            reviewResponse.setRating(review.getRating());
+            reviewResponse.setDate(review.getDate());
+            result.add(reviewResponse);
+        }
+        return result;
     }
 
     @PutMapping("/{id}")
