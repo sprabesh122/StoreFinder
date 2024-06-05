@@ -77,7 +77,7 @@
 
 package com.prabeshcodes.student.controller;
 
-import com.prabeshcodes.student.dtos.JwtResponse;
+import com.prabeshcodes.student.dtos.UserResponse;
 import com.prabeshcodes.student.model.Location;
 import com.prabeshcodes.student.model.User;
 import com.prabeshcodes.student.service.UserService;
@@ -105,8 +105,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
+    public UserResponse login(@RequestBody LoginRequest loginRequest) throws Exception {
         User user = userService.getUserByUsernameOrEmail(loginRequest.getIdentifier());
+        UserResponse userResponse = new UserResponse();
         if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
             Location location = new Location();
             location.setLatitude(Double.parseDouble(loginRequest.getLatitude()));
@@ -114,9 +115,11 @@ public class UserController {
             userService.updateUserLocation(user.getId(), location);
 
             String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
-            return ResponseEntity.ok(token);
+            userResponse.setUserId(user.getId());
+            userResponse.setToken(token);
+            return userResponse;
         }else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email/username or password");
+            throw new Exception("User Not Found");
         }
     }
 
