@@ -80,12 +80,16 @@ package com.prabeshcodes.student.controller;
 import com.prabeshcodes.student.dtos.UserResponse;
 import com.prabeshcodes.student.model.Location;
 import com.prabeshcodes.student.model.User;
+import com.prabeshcodes.student.repository.UserRepository;
 import com.prabeshcodes.student.service.UserService;
 import com.prabeshcodes.student.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -95,6 +99,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private JwtUtil jwtUtil;
 
     @PostMapping("/add")
@@ -102,6 +109,18 @@ public class UserController {
         user.setRole("user");
         userService.saveUser(user);
         return "New User Added";
+    }
+
+    @GetMapping("/getAll")
+    public List<UserResponse> findAllUser(){
+        List<UserResponse> result = new ArrayList<>();
+        List<User> users = userRepository.findAll();
+        for(User user : users){
+            UserResponse userResponse = new UserResponse();
+            userResponse.setUserId(user.getId());
+            result.add(userResponse);
+        }
+        return result;
     }
 
     @PostMapping("/login")
