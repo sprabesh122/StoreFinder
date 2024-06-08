@@ -8,6 +8,8 @@ public class StoreResponse {
     private String description;
     private List<String> reviews;
 
+    private String contactDetails;
+
     // Getters and Setters for id, name, description, and reviews
     public Long getId() {
         return id;
@@ -39,5 +41,13 @@ public class StoreResponse {
 
     public void setReviews(List<String> reviews) {
         this.reviews = reviews;
+    }
+
+    public String getContactDetails() {
+        return contactDetails;
+    }
+
+    public void setContactDetails(String contactDetails) {
+        this.contactDetails = contactDetails;
     }
 }

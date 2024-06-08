@@ -96,6 +96,7 @@ public class StoreController {
             StoreResponse storeResponse = new StoreResponse();
             storeResponse.setId(store.getId());
             storeResponse.setName(store.getName());
+            storeResponse.setContactDetails(store.getContactDetails());
             result.add(storeResponse);
         }
         return result;
@@ -134,6 +135,7 @@ return "Email sent successfully!";
             StoreResponse storeResponse = new StoreResponse();
             storeResponse.setId(store.getId());
             storeResponse.setName(store.getName());
+            storeResponse.setContactDetails(store.getContactDetails());
             result.add(storeResponse);
         }
         return result;
@@ -147,6 +149,7 @@ return "Email sent successfully!";
             StoreResponse storeResponse = new StoreResponse();
             storeResponse.setId(store.getId());
             storeResponse.setName(store.getName());
+            storeResponse.setContactDetails(store.getContactDetails());
             result.add(storeResponse);
         }
         return result;
