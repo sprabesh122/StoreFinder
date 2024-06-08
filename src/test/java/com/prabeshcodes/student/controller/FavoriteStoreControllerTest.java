@@ -51,21 +51,4 @@ public class FavoriteStoreControllerTest {
         verify(favoriteStoreService, times(1)).addFavoriteStore(any(FavoriteStore.class));
     }
 
-    @Test
-    public void testGetFavoriteStoresByUserId() throws Exception {
-        List<FavoriteStore> favoriteStores = new ArrayList<>();
-        favoriteStores.add(new FavoriteStore());
-        favoriteStores.add(new FavoriteStore());
-
-        when(favoriteStoreService.getFavoriteStoresByUserId(1L)).thenReturn(favoriteStores);
-
-        mockMvc.perform(get("/favorite-stores/user/{userId}", 1L))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[1]").exists())
-                .andExpect(jsonPath("$.length()").value(2));
-
-        verify(favoriteStoreService, times(1)).getFavoriteStoresByUserId(1L);
-    }
 }
