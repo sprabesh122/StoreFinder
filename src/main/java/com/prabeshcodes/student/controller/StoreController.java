@@ -1,5 +1,6 @@
 package com.prabeshcodes.student.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.prabeshcodes.student.dtos.StoreResponse;
 import com.prabeshcodes.student.model.Category;
 import com.prabeshcodes.student.model.Product;
@@ -118,6 +119,7 @@ return "Email sent successfully!";
     }
 
     @GetMapping("/{storeId}/categories")
+    @JsonIgnore
     public ResponseEntity<Set<Category>> getCategoriesOfStore(@PathVariable Long storeId) {
         Store store = storeService.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found with id " + storeId));
         return ResponseEntity.ok(store.getCategories());
